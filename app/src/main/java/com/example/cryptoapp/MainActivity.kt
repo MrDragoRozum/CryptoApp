@@ -1,41 +1,18 @@
 package com.example.cryptoapp
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import com.example.cryptoapp.api.ApiFactory
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.schedulers.Schedulers
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 
 class MainActivity : AppCompatActivity() {
 
-    private val compositeDisposable = CompositeDisposable()
-
-    companion object {
-        const val TAG = "MainActivity"
-    }
+    private lateinit var viewModel: CoinViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        viewModel = ViewModelProvider(this) [CoinViewModel::class.java]
+        viewModel.loadData()
 
-        val compositeOne = ApiFactory.apiService.getTopCoinsInfo().subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ Log.d(TAG, it.toString()) },
-                { Log.e(TAG, "Ничего не прилетело, лопух: ${it.message}") })
-
-        val compositeTwo = ApiFactory.apiService.getFullPriceList("BTC,ETH,EOS").subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ Log.d(TAG, it.toString()) },
-                { Log.e(TAG, "Ничего не прилетело, лопух: ${it.message}") })
-
-        compositeDisposable.addAll(compositeOne, compositeTwo)
-
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        compositeDisposable.dispose()
     }
 }
