@@ -31,7 +31,7 @@ class CoinViewModel(application: Application) : AndroidViewModel(application) {
     companion object {
         private const val TAG = "CoinViewModel"
     }
-    
+
     private fun loadData() {
         val compositeOne = apiService.getTopCoinsInfo(coinsList = 10)
             .map { it.data?.map { it.coinInfo?.name }?.joinToString(",") ?: "null" }
