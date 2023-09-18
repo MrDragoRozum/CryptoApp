@@ -14,6 +14,7 @@ android {
         jvmToolchain(11)
     }
 
+
     defaultConfig {
         applicationId = "com.example.cryptoapp"
         minSdk = 24
