@@ -1,4 +1,4 @@
-package com.example.cryptoapp
+package com.example.cryptoapp.presentation.activities
 
 import android.content.Context
 import android.content.Intent
@@ -7,7 +7,8 @@ import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
-import com.bumptech.glide.Glide
+import com.example.cryptoapp.R
+import com.example.cryptoapp.presentation.viewmodels.CoinViewModel
 
 class CoinDetailActivity : AppCompatActivity() {
 
@@ -28,18 +29,18 @@ class CoinDetailActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this)[CoinViewModel::class.java]
         init()
         intent.getStringExtra(EXTRA_FROM_SYMBOL)?.let {
-            viewModel.getDetailCoin(it).observe(this@CoinDetailActivity) {
-                textViewCoinDetail.text = it.fromSymbol
-                textViewCurrency.text = it.toSymbol
-                textViewPriceDetail.text = it.price
-                textViewMinForDay.text = it.lowDay
-                textViewMaxForDay.text = it.highDay
-                textViewLastDeal.text = it.lastMarket
-                textViewLastUpdated.text = it.getFormattedTime()
-                Glide.with(this@CoinDetailActivity)
-                    .load(it.getFullImageUrl())
-                    .into(imageViewLogoCoinDetail)
-            }
+//            viewModel.getDetailCoin(it).observe(this@CoinDetailActivity) {
+//                textViewCoinDetail.text = it.fromSymbol
+//                textViewCurrency.text = it.toSymbol
+//                textViewPriceDetail.text = it.price
+//                textViewMinForDay.text = it.lowDay
+//                textViewMaxForDay.text = it.highDay
+//                textViewLastDeal.text = it.lastMarket
+//                textViewLastUpdated.text = it.getFormattedTime()
+//                Glide.with(this@CoinDetailActivity)
+//                    .load(it.getFullImageUrl())
+//                    .into(imageViewLogoCoinDetail)
+//            }
         }
     }
 

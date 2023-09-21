@@ -1,13 +1,13 @@
-package com.example.cryptoapp
+package com.example.cryptoapp.presentation.viewmodels
 
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import com.example.cryptoapp.api.ApiFactory
-import com.example.cryptoapp.database.AppDatabase
-import com.example.cryptoapp.pojo.CoinPriceInfo
-import com.example.cryptoapp.pojo.CoinPriceInfoRawData
+import com.example.cryptoapp.data.mappers.CoinMapper
+import com.example.cryptoapp.data.api.ApiFactory
+import com.example.cryptoapp.data.database.AppDatabase
+import com.example.cryptoapp.data.dto.CoinPriceInfoDTO
+import com.example.cryptoapp.data.dto.CoinPriceInfoRawDataDTO
 import com.google.gson.Gson
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -18,11 +18,7 @@ class CoinViewModel(application: Application) : AndroidViewModel(application) {
     private val db = AppDatabase.getInstance(application)
     private val compositeDisposable = CompositeDisposable()
     private val apiService = ApiFactory.apiService
-
-    var priceList = db.coinPriceInfoDao().getPriceList()
-
-    fun getDetailCoin(fSym: String): LiveData<CoinPriceInfo> =
-        db.coinPriceInfoDao().getPriceAboutCoin(fSym)
+    private val mapper = CoinMapper()
 
     init {
         loadData()
@@ -32,8 +28,10 @@ class CoinViewModel(application: Application) : AndroidViewModel(application) {
         private const val TAG = "CoinViewModel"
     }
 
+    // Тестовыый код, данные прилетают нормально
+
     private fun loadData() {
-        val compositeOne = apiService.getTopCoinsInfo(coinsList = 10)
+        val compositeOne = apiService.getTopCoinsInfo(coinsList = 25)
             .map { it.data?.map { it.coinInfo?.name }?.joinToString(",") ?: "null" }
             .flatMap { apiService.getFullPriceList(it) }
             .map { getPriceListFromRawData(it) }
@@ -42,22 +40,27 @@ class CoinViewModel(application: Application) : AndroidViewModel(application) {
             .repeat()
             .subscribeOn(Schedulers.io())
             .subscribe({
-                db.coinPriceInfoDao().insertPriceList(it)
+                db.coinPriceInfoDao().insertPriceList(it.map {
+                    mapper.mapCoinPriceInfoDOTToCoinPriceInfoDbModel(it)
+                })
                 Log.d(TAG, "Success in database: $it")
             },
                 { Log.e(TAG, "Ничего не прилетело, лопух: ${it.message}") })
         compositeDisposable.add(compositeOne)
     }
 
-    private fun getPriceListFromRawData(coinPriceInfoRawData: CoinPriceInfoRawData): List<CoinPriceInfo> {
-        val result = mutableListOf<CoinPriceInfo>()
+    private fun getPriceListFromRawData(coinPriceInfoRawData: CoinPriceInfoRawDataDTO): List<CoinPriceInfoDTO> {
+        val result = mutableListOf<CoinPriceInfoDTO>()
         val jsonObject = coinPriceInfoRawData.coinPriceInfoRawDataJsonObject ?: return result
         val coinKeySet = jsonObject.keySet()
         for (coinKeys in coinKeySet) {
             val currencyJson = jsonObject.getAsJsonObject(coinKeys)
             val currencySet = currencyJson.keySet()
             for (currencyKey in currencySet) {
-                val priceInfo = Gson().fromJson(currencyJson.getAsJsonObject(currencyKey), CoinPriceInfo::class.java)
+                val priceInfo = Gson().fromJson(
+                    currencyJson.getAsJsonObject(currencyKey),
+                    CoinPriceInfoDTO::class.java
+                )
                 result.add(priceInfo)
             }
         }

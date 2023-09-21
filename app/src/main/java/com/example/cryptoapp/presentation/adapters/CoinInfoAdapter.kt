@@ -1,4 +1,4 @@
-package com.example.cryptoapp.adapters
+package com.example.cryptoapp.presentation.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.bumptech.glide.Glide
 import com.example.cryptoapp.R
-import com.example.cryptoapp.pojo.CoinPriceInfo
+import com.example.cryptoapp.domain.entities.CoinPriceInfo
 
 class CoinInfoAdapter : RecyclerView.Adapter<CoinInfoAdapter.CoinInfoViewHolder>() {
 
@@ -38,10 +38,10 @@ class CoinInfoAdapter : RecyclerView.Adapter<CoinInfoAdapter.CoinInfoViewHolder>
                 val lastUpdatedTemplate = itemView.context.resources.getString(R.string.last_updated_template)
                 textViewSymbols.text = String.format(symbolsTemplate, fromSymbol, toSymbol)
                 textViewPrice.text = price
-                textViewUpdated.text = String.format(lastUpdatedTemplate, getFormattedTime())
-                Glide.with(itemView.context)
-                    .load(getFullImageUrl())
-                    .into(imageViewLogoCoin)
+//                textViewUpdated.text = String.format(lastUpdatedTemplate, getFormattedTime())
+//                Glide.with(itemView.context)
+//                    .load(getFullImageUrl())
+//                    .into(imageViewLogoCoin)
                 itemView.setOnClickListener {
                     onCoinClickListener?.onCoinClick(this)
                 }
