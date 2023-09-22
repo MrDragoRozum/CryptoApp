@@ -2,18 +2,23 @@ package com.example.cryptoapp.presentation.viewmodels
 
 import android.app.Application
 import android.util.Log
-import androidx.lifecycle.AndroidViewModel
-import com.example.cryptoapp.data.mappers.CoinMapper
+import androidx.lifecycle.ViewModel
+import com.example.cryptoapp.data.CoinRepositoryImpl
 import com.example.cryptoapp.data.api.ApiFactory
 import com.example.cryptoapp.data.database.AppDatabase
 import com.example.cryptoapp.data.dto.CoinPriceInfoDTO
 import com.example.cryptoapp.data.dto.CoinPriceInfoRawDataDTO
+import com.example.cryptoapp.data.mappers.CoinMapper
+import com.example.cryptoapp.domain.usecases.GetFullPriceListUseCase
 import com.google.gson.Gson
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 
-class CoinViewModel(application: Application) : AndroidViewModel(application) {
+class CoinViewModel(
+    application: Application,
+    fSym: String = DEFAULT_PARAMETER_EMPTY
+) : ViewModel() {
 
     private val db = AppDatabase.getInstance(application)
     private val compositeDisposable = CompositeDisposable()
@@ -24,8 +29,13 @@ class CoinViewModel(application: Application) : AndroidViewModel(application) {
         loadData()
     }
 
+    private val repositoryImpl = CoinRepositoryImpl(application)
+    private val getFullPriceListUseCase = GetFullPriceListUseCase(repositoryImpl)
+    val getDetailInfo = getFullPriceListUseCase(fSym)
+
     companion object {
         private const val TAG = "CoinViewModel"
+        private const val DEFAULT_PARAMETER_EMPTY = ""
     }
 
     // Тестовыый код, данные прилетают нормально
