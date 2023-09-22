@@ -4,36 +4,29 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
-import com.example.cryptoapp.databinding.ActivityCoinDetailBinding
-import com.example.cryptoapp.presentation.viewmodels.CoinViewModel
-import com.example.cryptoapp.presentation.viewmodels.CoinViewModelFactory
+import com.example.cryptoapp.R
+import com.example.cryptoapp.presentation.fragments.CoinDetailFragment
 
 class CoinDetailActivity : AppCompatActivity() {
 
-    private val viewModelFactory by lazy {
-        intent.getStringExtra(EXTRA_FROM_SYMBOL)?.let {
-            CoinViewModelFactory(application, it)
-        }!!
-    }
-
-    private val viewModel: CoinViewModel by lazy {
-        ViewModelProvider(this, viewModelFactory)[CoinViewModel::class.java]
-    }
-
-    private val binding by lazy {
-        ActivityCoinDetailBinding.inflate(layoutInflater)
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
-        installData()
+        setContentView(R.layout.activity_coin_detail)
+        savedInstanceState ?: startFragment()
+        // TODO: Проверить на излишнее вызов методов ЖЦ
     }
 
-    private fun installData() {
-        binding.viewModel = viewModel
-        binding.lifecycleOwner = this
+    private fun startFragment() {
+        intent.getStringExtra(EXTRA_FROM_SYMBOL)?.let {
+            supportFragmentManager
+                .beginTransaction()
+                .replace(
+                    R.id.fragmentContainerViewCoinDetailActivity,
+                    CoinDetailFragment.newInstance(it)
+                )
+                .commit()
+        }
+
     }
 
     companion object {
