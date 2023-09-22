@@ -3,15 +3,14 @@ package com.example.cryptoapp.presentation.activities
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.example.cryptoapp.data.CoinRepositoryImpl
 import com.example.cryptoapp.databinding.ActivityCoinPriceListBinding
 import com.example.cryptoapp.presentation.adapters.CoinInfoAdapter
-import com.example.cryptoapp.presentation.viewmodels.CoinViewModel
+import com.example.cryptoapp.presentation.viewmodels.ListCoinViewModel
 
 class CoinPriceListActivity : AppCompatActivity() {
 
     private val viewModel by lazy {
-        ViewModelProvider(this)[CoinViewModel::class.java]
+        ViewModelProvider(this)[ListCoinViewModel::class.java]
     }
 
     private val binding by lazy {
@@ -27,8 +26,7 @@ class CoinPriceListActivity : AppCompatActivity() {
         setContentView(binding.root)
         binding.adapter = adapter
 
-        val repositoryImpl = CoinRepositoryImpl(application)
-        repositoryImpl.getCoinsList().observe(this) { adapter.submitList(it) }
+        viewModel.getTopCoinInfo.observe(this) { adapter.submitList(it) }
 
         adapter.onCoinClickListener = {
             intent = CoinDetailActivity.newIntent(this, it.fromSymbol)

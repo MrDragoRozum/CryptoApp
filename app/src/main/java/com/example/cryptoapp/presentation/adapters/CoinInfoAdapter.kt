@@ -39,7 +39,7 @@ class CoinInfoAdapter : ListAdapter<CoinPriceInfo, CoinInfoViewHolder>(CoinItemD
                         .into(imageViewLogoCoin)
 
                     itemView.setOnClickListener {
-                        this@CoinInfoAdapter.onCoinClickListener?.invoke(this)
+                        onCoinClickListener?.invoke(this)
                     }
                 }
             }
