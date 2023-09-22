@@ -3,39 +3,41 @@ package com.example.cryptoapp.presentation.activities
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.example.cryptoapp.R
 import com.example.cryptoapp.data.CoinRepositoryImpl
+import com.example.cryptoapp.databinding.ActivityCoinPriceListBinding
+import com.example.cryptoapp.domain.entities.CoinPriceInfo
+import com.example.cryptoapp.presentation.adapters.CoinInfoAdapter
 import com.example.cryptoapp.presentation.viewmodels.CoinViewModel
 
 class CoinPriceListActivity : AppCompatActivity() {
 
-    private lateinit var viewModel: CoinViewModel
+    private val viewModel by lazy {
+        ViewModelProvider(this)[CoinViewModel::class.java]
+    }
+
+    private val binding by lazy {
+        ActivityCoinPriceListBinding.inflate(layoutInflater)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_coin_price_list)
-        // Тестовый код, всё работает нормально
-        val repository = CoinRepositoryImpl(application)
-        repository.getCoinsList().observe(this) {
-            Log.d("MainActivity", "onCreate: $it")
-        }
-        viewModel = ViewModelProvider(this) [CoinViewModel::class.java]
+        setContentView(binding.root)
+        val adapter = CoinInfoAdapter()
+        binding.adapter = adapter
 
-
-//
-//        val recyclerViewCoinPriceList = findViewById<RecyclerView>(R.id.recyclerViewCoinPriceList)
-//        val adapter = CoinInfoAdapter()
-//        viewModel.priceList.observe(this) { adapter.coinInfoList = it }
-//        recyclerViewCoinPriceList.adapter = adapter
-//        adapter.onCoinClickListener = (object : CoinInfoAdapter.OnCoinClickListener {
-//            override fun onCoinClick(coin: CoinPriceInfo) {
-//                intent = CoinDetailActivity.newIntent(
-//                    this@CoinPriceListActivity,
-//                    coin.fromSymbol
-//                )
-//                startActivity(intent)
-//            }
-//        })
+        val repositoryImpl = CoinRepositoryImpl(application)
+        repositoryImpl.getCoinsList().observe(this) { adapter.coinInfoList = it }
+        adapter.onCoinClickListener = (object : CoinInfoAdapter.OnCoinClickListener {
+            override fun onCoinClick(coin: CoinPriceInfo) {
+                intent = CoinDetailActivity.newIntent(
+                    this@CoinPriceListActivity,
+                    coin.fromSymbol
+                )
+                startActivity(intent)
+            }
+        })
     }
 }
