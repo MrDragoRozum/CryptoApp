@@ -13,46 +13,4 @@ class CoinViewModel(
     private val getFullPriceListUseCase = GetFullPriceListUseCase(repositoryImpl)
 
     val getDetailInfo = getFullPriceListUseCase(fSym)
-
-//    private fun loadData() {
-//        val compositeOne = apiService.getTopCoinsInfo(coinsList = 25)
-//            .map { it.data?.map { it.coinInfo?.name }?.joinToString(",") ?: "null" }
-//            .flatMap { apiService.getFullPriceList(it) }
-//            .map { getPriceListFromRawData(it) }
-//            .delaySubscription(10, TimeUnit.SECONDS)
-//            .retry()
-//            .repeat()
-//            .subscribeOn(Schedulers.io())
-//            .subscribe({
-//                db.coinPriceInfoDao().insertPriceList(it.map {
-//                    mapper.mapCoinPriceInfoDOTToCoinPriceInfoDbModel(it)
-//                })
-//                Log.d(TAG, "Success in database: $it")
-//            },
-//                { Log.e(TAG, "Ничего не прилетело, лопух: ${it.message}") })
-//        compositeDisposable.add(compositeOne)
-//    }
-
-//    private fun getPriceListFromRawData(coinPriceInfoRawData: CoinPriceInfoRawDataDTO): List<CoinPriceInfoDTO> {
-//        val result = mutableListOf<CoinPriceInfoDTO>()
-//        val jsonObject = coinPriceInfoRawData.coinPriceInfoRawDataJsonObject ?: return result
-//        val coinKeySet = jsonObject.keySet()
-//        for (coinKeys in coinKeySet) {
-//            val currencyJson = jsonObject.getAsJsonObject(coinKeys)
-//            val currencySet = currencyJson.keySet()
-//            for (currencyKey in currencySet) {
-//                val priceInfo = Gson().fromJson(
-//                    currencyJson.getAsJsonObject(currencyKey),
-//                    CoinPriceInfoDTO::class.java
-//                )
-//                result.add(priceInfo)
-//            }
-//        }
-//        return result
-//    }
-
-//    override fun onCleared() {
-//        super.onCleared()
-//        compositeDisposable.dispose()
-//    }
 }
