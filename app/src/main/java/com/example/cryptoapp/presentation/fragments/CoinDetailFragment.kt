@@ -1,6 +1,7 @@
 package com.example.cryptoapp.presentation.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,6 +32,7 @@ class CoinDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentCoinDetailBinding.inflate(inflater, container, false)
+        Log.d("TAG", "onCreateView: I'm created!")
         return binding.root
     }
 

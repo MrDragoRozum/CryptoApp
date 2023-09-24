@@ -15,14 +15,16 @@ class CoinMapper {
         return CoinPriceInfo(
             dbModel.fromSymbol,
             dbModel.toSymbol,
-            dbModel.price,
+            formattedPrice(dbModel.price),
             formattedTime,
-            dbModel.highDay,
-            dbModel.lowDay,
-            dbModel.lastMarket,
+            formattedPrice(dbModel.highDay),
+            formattedPrice(dbModel.lowDay),
+            formattedPrice(dbModel.lastMarket),
             fullImageUrl
         )
     }
+
+    private fun formattedPrice(price: String?) = String.format("%.12s", price)
 
     fun mapCoinPriceInfoDOTToCoinPriceInfoDbModel(dto: CoinPriceInfoDTO) = CoinPriceInfoDbModel(
         dto.fromSymbol,

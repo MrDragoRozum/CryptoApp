@@ -27,8 +27,9 @@ class CoinPriceListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-
         binding.adapter = adapter
+
+        supportFragmentManager.popBackStack()
 
         viewModel.getTopCoinInfo.observe(this) { adapter.submitList(it) }
 

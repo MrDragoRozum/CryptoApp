@@ -15,6 +15,7 @@ abstract class AppDatabase : RoomDatabase() {
         private val LOCK = Any()
 
         fun getInstance(context: Context): AppDatabase {
+            database?.let { return it }
             synchronized(LOCK) {
                 database?.let { return it }
                 val instance =
@@ -30,5 +31,6 @@ abstract class AppDatabase : RoomDatabase() {
             }
         }
     }
+
     abstract fun coinPriceInfoDao(): CoinPriceInfoDao
 }
