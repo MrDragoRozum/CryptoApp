@@ -6,5 +6,5 @@ import com.example.cryptoapp.domain.entities.CoinPriceInfo
 interface CoinRepository {
     fun getCoinsList(): LiveData<List<CoinPriceInfo>>
     fun getPriceAboutCoin(fSym: String): LiveData<CoinPriceInfo>
-    suspend fun loadDataFromServer()
+    fun loadDataFromServer()
 }
