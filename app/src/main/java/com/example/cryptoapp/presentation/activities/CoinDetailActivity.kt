@@ -13,7 +13,7 @@ class CoinDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_coin_detail)
         savedInstanceState ?: startFragment()
-        // TODO: Проверить на излишнее вызов методов ЖЦ
+        // TODO: Проверить на излишний вызов методов ЖЦ
     }
 
     private fun startFragment() {
