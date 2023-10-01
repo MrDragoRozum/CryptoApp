@@ -6,11 +6,11 @@ import androidx.recyclerview.widget.ListAdapter
 import com.bumptech.glide.Glide
 import com.example.cryptoapp.R
 import com.example.cryptoapp.databinding.ItemCoinInfoBinding
-import com.example.cryptoapp.domain.entities.CoinPriceInfo
+import com.example.cryptoapp.domain.entities.CoinPrice
 
-class CoinInfoAdapter : ListAdapter<CoinPriceInfo, CoinInfoViewHolder>(CoinItemDiffCallback()) {
+class CoinInfoAdapter : ListAdapter<CoinPrice, CoinInfoViewHolder>(CoinItemDiffCallback()) {
 
-    var onCoinClickListener: ((coin: CoinPriceInfo) -> (Unit))? = null
+    var onCoinClickListener: ((coin: CoinPrice) -> (Unit))? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CoinInfoViewHolder {
         val view = ItemCoinInfoBinding.inflate(

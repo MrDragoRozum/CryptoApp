@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.cryptoapp.R
 import com.example.cryptoapp.databinding.ActivityCoinPriceListBinding
-import com.example.cryptoapp.domain.entities.CoinPriceInfo
+import com.example.cryptoapp.domain.entities.CoinPrice
 import com.example.cryptoapp.presentation.adapters.CoinInfoAdapter
 import com.example.cryptoapp.presentation.fragments.CoinDetailFragment
 import com.example.cryptoapp.presentation.viewmodels.ListCoinViewModel
@@ -38,7 +38,7 @@ class CoinPriceListActivity : AppCompatActivity() {
         }
     }
 
-    private fun selectOneCoinDetail(it: CoinPriceInfo) {
+    private fun selectOneCoinDetail(it: CoinPrice) {
         if (isOnePaneMode()) {
             launchActivityCoinDetail(it)
         } else {
@@ -46,12 +46,12 @@ class CoinPriceListActivity : AppCompatActivity() {
         }
     }
 
-    private fun launchActivityCoinDetail(it: CoinPriceInfo) {
+    private fun launchActivityCoinDetail(it: CoinPrice) {
         val intent = CoinDetailActivity.newIntent(this, it.fromSymbol)
         startActivity(intent)
     }
 
-    private fun launchFragmentCoinDetail(it: CoinPriceInfo) {
+    private fun launchFragmentCoinDetail(it: CoinPrice) {
         supportFragmentManager.popBackStack()
         supportFragmentManager
             .beginTransaction()

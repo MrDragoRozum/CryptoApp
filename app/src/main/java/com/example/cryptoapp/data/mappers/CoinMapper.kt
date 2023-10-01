@@ -5,14 +5,14 @@ import com.example.cryptoapp.data.dbmodel.CoinPriceInfoDbModel
 import com.example.cryptoapp.data.dto.CoinPriceInfoDTO
 import com.example.cryptoapp.data.dto.CoinPriceInfoRawDataDTO
 import com.example.cryptoapp.data.utils.convertTimestampToTime
-import com.example.cryptoapp.domain.entities.CoinPriceInfo
+import com.example.cryptoapp.domain.entities.CoinPrice
 import com.google.gson.Gson
 
 class CoinMapper {
-    fun mapCoinPriceInfoDbModelToCoinPriceInfo(dbModel: CoinPriceInfoDbModel): CoinPriceInfo {
+    fun mapCoinPriceInfoDbModelToCoinPriceInfo(dbModel: CoinPriceInfoDbModel): CoinPrice {
         val fullImageUrl = ApiFactory.BASE_IMAGE_URL + dbModel.imageUrl
         val formattedTime = convertTimestampToTime(dbModel.lastUpdate)
-        return CoinPriceInfo(
+        return CoinPrice(
             dbModel.fromSymbol,
             dbModel.toSymbol,
             formattedPrice(dbModel.price),
