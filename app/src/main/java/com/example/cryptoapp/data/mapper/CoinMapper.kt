@@ -1,7 +1,6 @@
 package com.example.cryptoapp.data.mapper
 
 import com.example.cryptoapp.data.database.dbmodel.CoinInfoDbModel
-import com.example.cryptoapp.data.network.ApiFactory
 import com.example.cryptoapp.data.network.dto.CoinInfoDto
 import com.example.cryptoapp.data.network.dto.CoinInfoJsonContainerDto
 import com.example.cryptoapp.data.network.dto.CoinNamesListDto
@@ -15,7 +14,6 @@ import java.util.TimeZone
 
 class CoinMapper {
     fun mapDbModelToEntity(dbModel: CoinInfoDbModel): CoinPrice {
-        val fullImageUrl = ApiFactory.BASE_IMAGE_URL + dbModel.imageUrl
         val formattedTime = convertTimestampToTime(dbModel.lastUpdate)
         return CoinPrice(
             dbModel.fromSymbol,
@@ -25,7 +23,7 @@ class CoinMapper {
             formattedPrice(dbModel.highDay),
             formattedPrice(dbModel.lowDay),
             formattedPrice(dbModel.lastMarket),
-            fullImageUrl
+            dbModel.imageUrl
         )
     }
 
@@ -39,7 +37,7 @@ class CoinMapper {
         dto.highDay,
         dto.lowDay,
         dto.lastMarket,
-        dto.imageUrl
+        BASE_IMAGE_URL + dto.imageUrl
     )
 
     fun mapJsonContainerToListCoinInfo(jsonContainer: CoinInfoJsonContainerDto): List<CoinInfoDto> {
@@ -75,5 +73,6 @@ class CoinMapper {
 
     companion object {
         private const val EMPTY_RESULT = ""
+        private const val BASE_IMAGE_URL = "https://cryptocompare.com"
     }
 }

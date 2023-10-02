@@ -24,7 +24,6 @@ class LoadDataCoinWork(
     private val mapper = CoinMapper()
     override suspend fun doWork(): Result {
         while (true) {
-            delay(10000)
             apiHelperImpl.getTopCoinsInfo()
                 .map { mapper.mapNamesListToString(it) }
                 .flatMapConcat { apiHelperImpl.getFullPriceList(it) }
@@ -36,6 +35,7 @@ class LoadDataCoinWork(
                         mapper.mapDtoToDbModel(it)
                     })
                 }
+            delay(10000)
         }
     }
 

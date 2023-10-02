@@ -59,7 +59,8 @@ class CoinPriceListActivity : AppCompatActivity() {
                 R.id.fragmentContainerViewCoinDetail,
                 CoinDetailFragment.newInstance(it.fromSymbol)
             )
-            .addToBackStack(null).commit()
+            .addToBackStack(null)
+            .commit()
     }
 
     private fun isOnePaneMode() = binding.fragmentContainerViewCoinDetail == null
