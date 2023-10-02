@@ -18,7 +18,7 @@ class CoinDetailFragment : Fragment() {
     private val viewModelFactory by lazy {
         CoinViewModelFactory(
             requireActivity().application,
-            requireArguments().getString(EXTRA_FROM_SYMBOL, "")
+            requireArguments().getString(EXTRA_FROM_SYMBOL, EMPTY_RESULT)
         )
     }
 
@@ -47,6 +47,7 @@ class CoinDetailFragment : Fragment() {
 
     companion object {
         private const val EXTRA_FROM_SYMBOL = "fSym"
+        private const val EMPTY_RESULT = ""
         fun newInstance(fSym: String) = CoinDetailFragment().apply {
             arguments = Bundle().apply {
                 putString(EXTRA_FROM_SYMBOL, fSym)

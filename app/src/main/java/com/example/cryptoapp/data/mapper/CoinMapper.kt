@@ -1,16 +1,19 @@
 package com.example.cryptoapp.data.mapper
 
 import com.example.cryptoapp.data.database.dbmodel.CoinInfoDbModel
-import com.example.cryptoapp.data.mapper.utils.convertTimestampToTime
 import com.example.cryptoapp.data.network.ApiFactory
 import com.example.cryptoapp.data.network.dto.CoinInfoDto
 import com.example.cryptoapp.data.network.dto.CoinInfoJsonContainerDto
 import com.example.cryptoapp.data.network.dto.CoinNamesListDto
 import com.example.cryptoapp.domain.entities.CoinPrice
 import com.google.gson.Gson
+import java.sql.Timestamp
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+import java.util.TimeZone
 
 class CoinMapper {
-    // TODO: Переименовать методы
     fun mapDbModelToEntity(dbModel: CoinInfoDbModel): CoinPrice {
         val fullImageUrl = ApiFactory.BASE_IMAGE_URL + dbModel.imageUrl
         val formattedTime = convertTimestampToTime(dbModel.lastUpdate)
@@ -58,5 +61,19 @@ class CoinMapper {
     }
 
     fun mapNamesListToString(namesListDto: CoinNamesListDto) =
-        namesListDto.names?.map { it.coinName?.name }?.joinToString(",") ?: "null"
+        namesListDto.names?.map { it.coinName?.name }?.joinToString(",") ?: EMPTY_RESULT
+
+    private fun convertTimestampToTime(timestamp: Long?): String {
+        timestamp ?: return EMPTY_RESULT
+        val stamp = Timestamp(timestamp * 1000)
+        val date = Date(stamp.time)
+        val pattern = "HH:mm:ss"
+        val sdf = SimpleDateFormat(pattern, Locale.getDefault())
+        sdf.timeZone = TimeZone.getDefault()
+        return sdf.format(date)
+    }
+
+    companion object {
+        private const val EMPTY_RESULT = ""
+    }
 }

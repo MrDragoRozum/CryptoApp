@@ -9,11 +9,9 @@ import com.example.cryptoapp.data.database.AppDatabase
 import com.example.cryptoapp.data.mapper.CoinMapper
 import com.example.cryptoapp.data.network.ApiFactory
 import com.example.cryptoapp.data.network.ApiHelperImpl
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flatMapConcat
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 
 class LoadDataCoinWork(
@@ -28,13 +26,12 @@ class LoadDataCoinWork(
         while (true) {
             delay(10000)
             apiHelperImpl.getTopCoinsInfo()
-                .flowOn(Dispatchers.IO)
                 .map { mapper.mapNamesListToString(it) }
                 .flatMapConcat { apiHelperImpl.getFullPriceList(it) }
                 .map { mapper.mapJsonContainerToListCoinInfo(it) }
-                .catch { Log.e("TEST", "Ничего не прилетело, лопух: ${it.message}") }
+                .catch { Log.e(NAME_WORK, "Ничего не прилетело, лопух: ${it.message}") }
                 .collect {
-                    Log.d("TEST", "Success in database: $it")
+                    Log.d(NAME_WORK, "Success in database: $it")
                     db.coinPriceInfoDao().insertPriceList(it.map {
                         mapper.mapDtoToDbModel(it)
                     })
