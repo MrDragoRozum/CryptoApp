@@ -1,15 +1,17 @@
-package com.example.cryptoapp.data.mappers
+package com.example.cryptoapp.data.mapper
 
-import com.example.cryptoapp.data.api.ApiFactory
-import com.example.cryptoapp.data.dbmodel.CoinPriceInfoDbModel
-import com.example.cryptoapp.data.dto.CoinPriceInfoDTO
-import com.example.cryptoapp.data.dto.CoinPriceInfoRawDataDTO
-import com.example.cryptoapp.data.utils.convertTimestampToTime
+import com.example.cryptoapp.data.database.dbmodel.CoinInfoDbModel
+import com.example.cryptoapp.data.mapper.utils.convertTimestampToTime
+import com.example.cryptoapp.data.network.ApiFactory
+import com.example.cryptoapp.data.network.dto.CoinInfoDto
+import com.example.cryptoapp.data.network.dto.CoinInfoJsonContainerDto
+import com.example.cryptoapp.data.network.dto.CoinNamesListDto
 import com.example.cryptoapp.domain.entities.CoinPrice
 import com.google.gson.Gson
 
 class CoinMapper {
-    fun mapCoinPriceInfoDbModelToCoinPriceInfo(dbModel: CoinPriceInfoDbModel): CoinPrice {
+    // TODO: Переименовать методы
+    fun mapDbModelToEntity(dbModel: CoinInfoDbModel): CoinPrice {
         val fullImageUrl = ApiFactory.BASE_IMAGE_URL + dbModel.imageUrl
         val formattedTime = convertTimestampToTime(dbModel.lastUpdate)
         return CoinPrice(
@@ -26,7 +28,7 @@ class CoinMapper {
 
     private fun formattedPrice(price: String?) = String.format("%.12s", price)
 
-    fun mapCoinPriceInfoDOTToCoinPriceInfoDbModel(dto: CoinPriceInfoDTO) = CoinPriceInfoDbModel(
+    fun mapDtoToDbModel(dto: CoinInfoDto) = CoinInfoDbModel(
         dto.fromSymbol,
         dto.toSymbol,
         dto.price,
@@ -37,9 +39,9 @@ class CoinMapper {
         dto.imageUrl
     )
 
-    fun getPriceListFromRawData(coinPriceInfoRawData: CoinPriceInfoRawDataDTO): List<CoinPriceInfoDTO> {
-        val result = mutableListOf<CoinPriceInfoDTO>()
-        val jsonObject = coinPriceInfoRawData.coinPriceInfoRawDataJsonObject ?: return result
+    fun mapJsonContainerToListCoinInfo(jsonContainer: CoinInfoJsonContainerDto): List<CoinInfoDto> {
+        val result = mutableListOf<CoinInfoDto>()
+        val jsonObject = jsonContainer.json ?: return result
         val coinKeySet = jsonObject.keySet()
         for (coinKeys in coinKeySet) {
             val currencyJson = jsonObject.getAsJsonObject(coinKeys)
@@ -47,11 +49,14 @@ class CoinMapper {
             for (currencyKey in currencySet) {
                 val priceInfo = Gson().fromJson(
                     currencyJson.getAsJsonObject(currencyKey),
-                    CoinPriceInfoDTO::class.java
+                    CoinInfoDto::class.java
                 )
                 result.add(priceInfo)
             }
         }
         return result
     }
+
+    fun mapNamesListToString(namesListDto: CoinNamesListDto) =
+        namesListDto.names?.map { it.coinName?.name }?.joinToString(",") ?: "null"
 }

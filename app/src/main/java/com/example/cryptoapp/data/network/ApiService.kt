@@ -1,24 +1,24 @@
-package com.example.cryptoapp.data.api
+package com.example.cryptoapp.data.network
 
-import com.example.cryptoapp.data.dto.CoinListOfDataDTO
-import com.example.cryptoapp.data.dto.CoinPriceInfoRawDataDTO
+import com.example.cryptoapp.data.network.dto.CoinNamesListDto
+import com.example.cryptoapp.data.network.dto.CoinInfoJsonContainerDto
 import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface ApiService {
     @GET("top/totalvolfull")
-    suspend fun getTopCoinsInfo(
+    suspend fun getCoinNamesList(
         @Query(QUERY_PARAM_LIMIT) coinsList: Int = 10,
         @Query(QUERY_PARAM_TO_SYMBOL) tSyms: String = CURRENCY,
         @Query(QUERY_PARAM_API_KEY) apiKey: String = API_KEY
-    ): CoinListOfDataDTO
+    ): CoinNamesListDto
 
     @GET("pricemultifull")
-    suspend fun getFullPriceList(
+    suspend fun getCoinInfoJsonContainer(
         @Query(QUERY_PARAM_TO_COIN_SYMBOL) fSyms: String,
         @Query(QUERY_PARAM_TO_SYMBOLS) tSyms: String = CURRENCY,
         @Query(QUERY_PARAM_API_KEY) apiKey: String = API_KEY
-    ): CoinPriceInfoRawDataDTO
+    ): CoinInfoJsonContainerDto
 
     companion object {
         private const val QUERY_PARAM_LIMIT = "limit"

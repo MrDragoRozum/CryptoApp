@@ -1,10 +1,10 @@
-package com.example.cryptoapp.data.dbmodel
+package com.example.cryptoapp.data.database.dbmodel
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "full_price_list")
-data class CoinPriceInfoDbModel(
+data class CoinInfoDbModel(
     @PrimaryKey
     val fromSymbol: String,
     val toSymbol: String?,

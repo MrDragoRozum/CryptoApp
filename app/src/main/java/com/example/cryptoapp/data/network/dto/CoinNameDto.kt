@@ -1,9 +1,9 @@
-package com.example.cryptoapp.data.dto
+package com.example.cryptoapp.data.network.dto
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-data class CoinNameDTO(
+data class CoinNameDto(
     @SerializedName("Name")
     @Expose
     val name: String? = null

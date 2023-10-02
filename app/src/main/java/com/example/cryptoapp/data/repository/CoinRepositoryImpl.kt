@@ -1,4 +1,4 @@
-package com.example.cryptoapp.data
+package com.example.cryptoapp.data.repository
 
 import android.content.Context
 import androidx.lifecycle.LiveData
@@ -6,8 +6,8 @@ import androidx.lifecycle.map
 import androidx.work.ExistingWorkPolicy
 import androidx.work.WorkManager
 import com.example.cryptoapp.data.database.AppDatabase
-import com.example.cryptoapp.data.mappers.CoinMapper
-import com.example.cryptoapp.data.workers.LoadDataCoinWork
+import com.example.cryptoapp.data.mapper.CoinMapper
+import com.example.cryptoapp.data.worker.LoadDataCoinWork
 import com.example.cryptoapp.domain.entities.CoinPrice
 import com.example.cryptoapp.domain.repository.CoinRepository
 
@@ -18,12 +18,12 @@ class CoinRepositoryImpl(private val context: Context) : CoinRepository {
 
     override fun getCoinsList(): LiveData<List<CoinPrice>> =
         db.coinPriceInfoDao().getPriceList().map {
-            it.map { mapper.mapCoinPriceInfoDbModelToCoinPriceInfo(it) }
+            it.map { mapper.mapDbModelToEntity(it) }
         }
 
     override fun getPriceAboutCoin(fromSymbol: String): LiveData<CoinPrice> =
         db.coinPriceInfoDao().getPriceAboutCoin(fromSymbol).map {
-            mapper.mapCoinPriceInfoDbModelToCoinPriceInfo(it)
+            mapper.mapDbModelToEntity(it)
         }
 
     override fun loadDataFromServer() {

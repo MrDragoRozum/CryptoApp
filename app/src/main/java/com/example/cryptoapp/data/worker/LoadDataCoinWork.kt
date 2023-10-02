@@ -1,14 +1,14 @@
-package com.example.cryptoapp.data.workers
+package com.example.cryptoapp.data.worker
 
 import android.content.Context
 import android.util.Log
 import androidx.work.CoroutineWorker
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkerParameters
-import com.example.cryptoapp.data.api.ApiFactory
-import com.example.cryptoapp.data.api.ApiHelperImpl
 import com.example.cryptoapp.data.database.AppDatabase
-import com.example.cryptoapp.data.mappers.CoinMapper
+import com.example.cryptoapp.data.mapper.CoinMapper
+import com.example.cryptoapp.data.network.ApiFactory
+import com.example.cryptoapp.data.network.ApiHelperImpl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.catch
@@ -29,14 +29,14 @@ class LoadDataCoinWork(
             delay(10000)
             apiHelperImpl.getTopCoinsInfo()
                 .flowOn(Dispatchers.IO)
-                .map { it.data?.map { it.coinInfo?.name }?.joinToString(",") ?: "null" }
+                .map { mapper.mapNamesListToString(it) }
                 .flatMapConcat { apiHelperImpl.getFullPriceList(it) }
-                .map { mapper.getPriceListFromRawData(it) }
+                .map { mapper.mapJsonContainerToListCoinInfo(it) }
                 .catch { Log.e("TEST", "Ничего не прилетело, лопух: ${it.message}") }
                 .collect {
                     Log.d("TEST", "Success in database: $it")
                     db.coinPriceInfoDao().insertPriceList(it.map {
-                        mapper.mapCoinPriceInfoDOTToCoinPriceInfoDbModel(it)
+                        mapper.mapDtoToDbModel(it)
                     })
                 }
         }
