@@ -24,7 +24,7 @@ class LoadDataCoinWork(
     private val mapper = CoinMapper()
     override suspend fun doWork(): Result {
         while (true) {
-            apiHelperImpl.getTopCoinsInfo()
+            apiHelperImpl.getTopCoinsInfo(30)
                 .map { mapper.mapNamesListToString(it) }
                 .flatMapConcat { apiHelperImpl.getFullPriceList(it) }
                 .map { mapper.mapJsonContainerToListCoinInfo(it) }

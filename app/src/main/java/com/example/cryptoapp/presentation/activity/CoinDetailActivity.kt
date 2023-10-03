@@ -1,11 +1,11 @@
-package com.example.cryptoapp.presentation.activities
+package com.example.cryptoapp.presentation.activity
 
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.cryptoapp.R
-import com.example.cryptoapp.presentation.fragments.CoinDetailFragment
+import com.example.cryptoapp.presentation.fragment.CoinDetailFragment
 
 class CoinDetailActivity : AppCompatActivity() {
 

@@ -1,4 +1,4 @@
-package com.example.cryptoapp.presentation.bindingAdapters
+package com.example.cryptoapp.presentation.bindingAdapter
 
 import android.util.Log
 import android.widget.ImageView

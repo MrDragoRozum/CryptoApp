@@ -1,4 +1,4 @@
-package com.example.cryptoapp.presentation.adapters
+package com.example.cryptoapp.presentation.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -23,24 +23,22 @@ class CoinInfoAdapter : ListAdapter<CoinPrice, CoinInfoViewHolder>(CoinItemDiffC
 
     override fun onBindViewHolder(holder: CoinInfoViewHolder, position: Int) {
         val coin = getItem(position)
-        with(holder) {
-            with(binding) {
-                with(coin) {
-                    val symbolsTemplate =
-                        itemView.context.resources.getString(R.string.symbols_template)
-                    val lastUpdatedTemplate =
-                        itemView.context.resources.getString(R.string.last_updated_template)
+        with(holder.binding) {
+            with(coin) {
+                val symbolsTemplate =
+                    root.context.resources.getString(R.string.symbols_template)
+                val lastUpdatedTemplate =
+                    root.context.resources.getString(R.string.last_updated_template)
 
-                    textViewSymbols.text = String.format(symbolsTemplate, fromSymbol, toSymbol)
-                    textViewPrice.text = price
-                    textViewUpdated.text = String.format(lastUpdatedTemplate, lastUpdate)
-                    Glide.with(itemView.context)
-                        .load(imageUrl)
-                        .into(imageViewLogoCoin)
+                textViewSymbols.text = String.format(symbolsTemplate, fromSymbol, toSymbol)
+                textViewPrice.text = price
+                textViewUpdated.text = String.format(lastUpdatedTemplate, lastUpdate)
+                Glide.with(root.context)
+                    .load(imageUrl)
+                    .into(imageViewLogoCoin)
 
-                    itemView.setOnClickListener {
-                        onCoinClickListener?.invoke(this)
-                    }
+                root.setOnClickListener {
+                    onCoinClickListener?.invoke(this)
                 }
             }
         }

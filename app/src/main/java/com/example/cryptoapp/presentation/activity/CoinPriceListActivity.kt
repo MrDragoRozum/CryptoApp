@@ -1,4 +1,4 @@
-package com.example.cryptoapp.presentation.activities
+package com.example.cryptoapp.presentation.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -6,9 +6,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.cryptoapp.R
 import com.example.cryptoapp.databinding.ActivityCoinPriceListBinding
 import com.example.cryptoapp.domain.entities.CoinPrice
-import com.example.cryptoapp.presentation.adapters.CoinInfoAdapter
-import com.example.cryptoapp.presentation.fragments.CoinDetailFragment
-import com.example.cryptoapp.presentation.viewmodels.ListCoinViewModel
+import com.example.cryptoapp.presentation.adapter.CoinInfoAdapter
+import com.example.cryptoapp.presentation.fragment.CoinDetailFragment
+import com.example.cryptoapp.presentation.viewmodel.ListCoinViewModel
 
 class CoinPriceListActivity : AppCompatActivity() {
 

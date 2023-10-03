@@ -7,13 +7,13 @@
 
         <variable
             name="adapter"
-            type="com.example.cryptoapp.presentation.adapters.CoinInfoAdapter" />
+            type="com.example.cryptoapp.presentation.adapter.CoinInfoAdapter" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentation.activities.CoinPriceListActivity">
+        tools:context=".presentation.activity.CoinPriceListActivity">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewCoinPriceList"
