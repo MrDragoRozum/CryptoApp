@@ -15,11 +15,11 @@
         android:theme="@style/Theme.CryptoApp"
         tools:targetApi="31">
         <activity
-            android:name=".presentation.activities.CoinDetailActivity"
+            android:name=".presentation.activity.CoinDetailActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".presentation.activities.CoinPriceListActivity"
+            android:name=".presentation.activity.CoinPriceListActivity"
             android:exported="true"
             android:screenOrientation="fullUser">
             <intent-filter>

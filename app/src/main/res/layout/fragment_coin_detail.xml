@@ -6,14 +6,14 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.cryptoapp.presentation.viewmodels.CoinViewModel" />
+            type="com.example.cryptoapp.presentation.viewmodel.CoinViewModel" />
     </data>
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentation.activities.CoinDetailActivity">
+        tools:context=".presentation.activity.CoinDetailActivity">
 
         <ImageView
             android:id="@+id/imageViewLogoCoinDetail"
