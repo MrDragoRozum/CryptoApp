@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="adapter"
+            type="com.example.cryptoapp.presentation.adapter.CoinInfoAdapter" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".presentation.activity.CoinPriceListActivity">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewCoinPriceList"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:adapter="@{adapter}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toStartOf="@id/guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:listitem="@layout/item_coin_info">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
+        <ScrollView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/guideline">
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/fragmentContainerViewCoinDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                tools:layout="@layout/fragment_coin_detail" />
+
+        </ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
