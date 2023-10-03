@@ -13,12 +13,12 @@ import com.example.cryptoapp.presentation.viewmodel.CoinViewModelFactory
 class CoinDetailFragment : Fragment() {
 
     private var _binding: FragmentCoinDetailBinding? = null
-    private val binding get() =  _binding!!
+    private val binding get() = _binding!!
 
     private val viewModelFactory by lazy {
         CoinViewModelFactory(
             requireActivity().application,
-            requireArguments().getString(EXTRA_FROM_SYMBOL, EMPTY_RESULT)
+            getSymbol()
         )
     }
 
@@ -44,6 +44,8 @@ class CoinDetailFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
+    private fun getSymbol(): String = requireArguments().getString(EXTRA_FROM_SYMBOL, EMPTY_RESULT)
 
     companion object {
         private const val EXTRA_FROM_SYMBOL = "fSym"

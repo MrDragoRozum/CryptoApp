@@ -26,7 +26,7 @@ class CoinRepositoryImpl(private val context: Context) : CoinRepository {
             mapper.mapDbModelToEntity(it)
         }
 
-    override fun loadDataFromServer() {
+    override fun loadData() {
         WorkManager.getInstance(context).enqueueUniqueWork(
             LoadDataCoinWork.NAME_WORK,
             ExistingWorkPolicy.REPLACE,
