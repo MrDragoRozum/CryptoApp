@@ -8,7 +8,7 @@ import com.example.cryptoapp.R
 import com.example.cryptoapp.databinding.ItemCoinInfoBinding
 import com.example.cryptoapp.domain.entities.CoinPrice
 
-class CoinInfoAdapter : ListAdapter<CoinPrice, CoinInfoViewHolder>(CoinItemDiffCallback()) {
+class CoinInfoAdapter : ListAdapter<CoinPrice, CoinInfoViewHolder>(CoinItemDiffCallback) {
 
     var onCoinClickListener: ((coin: CoinPrice) -> (Unit))? = null
 
