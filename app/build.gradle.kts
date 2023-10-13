@@ -49,6 +49,9 @@ android {
 }
 
 dependencies {
+    implementation("com.google.dagger:dagger:2.48.1")
+    kapt("com.google.dagger:dagger-compiler:2.48.1")
+
     implementation("androidx.work:work-runtime-ktx:2.8.1")
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
