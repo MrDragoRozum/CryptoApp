@@ -8,19 +8,16 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.cryptoapp.databinding.FragmentCoinDetailBinding
 import com.example.cryptoapp.presentation.viewmodel.CoinViewModel
-import com.example.cryptoapp.presentation.viewmodel.CoinViewModelFactory
+import com.example.cryptoapp.presentation.viewmodel.ViewModelFactory
+import javax.inject.Inject
 
 class CoinDetailFragment : Fragment() {
 
     private var _binding: FragmentCoinDetailBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModelFactory by lazy {
-        CoinViewModelFactory(
-            requireActivity().application,
-            getSymbol()
-        )
-    }
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
 
     private val viewModel by lazy {
         ViewModelProvider(this, viewModelFactory)[CoinViewModel::class.java]

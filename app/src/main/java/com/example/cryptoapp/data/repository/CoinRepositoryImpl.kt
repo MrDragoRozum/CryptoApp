@@ -10,12 +10,13 @@ import com.example.cryptoapp.data.mapper.CoinMapper
 import com.example.cryptoapp.data.worker.LoadDataCoinWork
 import com.example.cryptoapp.domain.entities.CoinPrice
 import com.example.cryptoapp.domain.repository.CoinRepository
+import javax.inject.Inject
 
-class CoinRepositoryImpl(private val context: Context) : CoinRepository {
-
-    private val db = AppDatabase.getInstance(context)
-    private val mapper = CoinMapper()
-
+class CoinRepositoryImpl @Inject constructor(
+    private val context: Context,
+    private val mapper: CoinMapper,
+    private val db: AppDatabase
+) : CoinRepository {
     override fun getCoinsList(): LiveData<List<CoinPrice>> =
         db.coinPriceInfoDao().getPriceList().map {
             it.map { mapper.mapDbModelToEntity(it) }
