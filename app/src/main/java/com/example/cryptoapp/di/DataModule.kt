@@ -9,9 +9,9 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-abstract class DataModule {
+interface DataModule {
     @Binds
-    abstract fun bindCoinRepository(impl: CoinRepositoryImpl): CoinRepository
+    fun bindCoinRepository(impl: CoinRepositoryImpl): CoinRepository
 
     companion object {
         @ApplicationScope
