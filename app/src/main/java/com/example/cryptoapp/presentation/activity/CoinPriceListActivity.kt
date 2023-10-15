@@ -26,9 +26,8 @@ class CoinPriceListActivity : AppCompatActivity() {
         ActivityCoinPriceListBinding.inflate(layoutInflater)
     }
 
-    private val adapter by lazy {
-        CoinInfoAdapter()
-    }
+    @Inject
+    lateinit var adapter: CoinInfoAdapter
 
     private val component by lazy {
         (application as CoinApp).component

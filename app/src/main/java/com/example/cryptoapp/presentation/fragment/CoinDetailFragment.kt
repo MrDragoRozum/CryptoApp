@@ -1,11 +1,13 @@
 package com.example.cryptoapp.presentation.fragment
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.cryptoapp.CoinApp
 import com.example.cryptoapp.databinding.FragmentCoinDetailBinding
 import com.example.cryptoapp.presentation.viewmodel.CoinViewModel
 import com.example.cryptoapp.presentation.viewmodel.ViewModelFactory
@@ -21,6 +23,17 @@ class CoinDetailFragment : Fragment() {
 
     private val viewModel by lazy {
         ViewModelProvider(this, viewModelFactory)[CoinViewModel::class.java]
+    }
+
+    private val component by lazy {
+        (requireActivity().application as CoinApp).component
+            .activityComponentFactory()
+            .create(getSymbol())
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        component.injectCoinDetail(this)
     }
 
     override fun onCreateView(
