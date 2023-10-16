@@ -7,8 +7,7 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkerParameters
 import com.example.cryptoapp.data.database.AppDatabase
 import com.example.cryptoapp.data.mapper.CoinMapper
-import com.example.cryptoapp.data.network.ApiFactory
-import com.example.cryptoapp.data.network.ApiHelperImpl
+import com.example.cryptoapp.data.network.ApiHelper
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flatMapConcat
@@ -16,12 +15,12 @@ import kotlinx.coroutines.flow.map
 
 class LoadDataCoinWork(
     context: Context,
-    workerParameters: WorkerParameters
+    workerParameters: WorkerParameters,
+    private val apiHelperImpl: ApiHelper,
+    private val db: AppDatabase,
+    private val mapper: CoinMapper
 ) : CoroutineWorker(context, workerParameters) {
 
-    private val apiHelperImpl = ApiHelperImpl(ApiFactory.apiService)
-    private val db = AppDatabase.getInstance(context)
-    private val mapper = CoinMapper()
     override suspend fun doWork(): Result {
         while (true) {
             apiHelperImpl.getTopCoinsInfo(30)
