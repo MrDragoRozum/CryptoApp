@@ -1,6 +1,7 @@
 package com.example.cryptoapp.di
 
 import android.content.Context
+import com.example.cryptoapp.presentation.app.CoinApp
 import dagger.BindsInstance
 import dagger.Component
 @ApplicationScope
@@ -8,6 +9,8 @@ import dagger.Component
 interface ApplicationComponent {
 
     fun activityComponentFactory(): ActivityComponent.ActivityComponentFactory
+
+    fun inject(app: CoinApp)
 
     @Component.Factory
     interface ApplicationComponentFactory {

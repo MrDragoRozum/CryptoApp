@@ -7,8 +7,9 @@ import androidx.work.WorkerParameters
 import com.example.cryptoapp.data.database.AppDatabase
 import com.example.cryptoapp.data.mapper.CoinMapper
 import com.example.cryptoapp.data.network.ApiHelper
+import javax.inject.Inject
 
-class LoadDataCoinWorkerFactory(
+class LoadDataCoinWorkerFactory @Inject constructor(
     private val apiHelperImpl: ApiHelper,
     private val db: AppDatabase,
     private val mapper: CoinMapper
