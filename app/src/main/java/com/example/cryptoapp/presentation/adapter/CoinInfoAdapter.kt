@@ -7,8 +7,10 @@ import com.bumptech.glide.Glide
 import com.example.cryptoapp.R
 import com.example.cryptoapp.databinding.ItemCoinInfoBinding
 import com.example.cryptoapp.domain.entities.CoinPrice
+import javax.inject.Inject
 
-class CoinInfoAdapter : ListAdapter<CoinPrice, CoinInfoViewHolder>(CoinItemDiffCallback) {
+class CoinInfoAdapter @Inject constructor() :
+    ListAdapter<CoinPrice, CoinInfoViewHolder>(CoinItemDiffCallback) {
 
     var onCoinClickListener: ((coin: CoinPrice) -> (Unit))? = null
 

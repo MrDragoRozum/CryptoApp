@@ -3,28 +3,40 @@ package com.example.cryptoapp.presentation.activity
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.example.cryptoapp.presentation.app.CoinApp
 import com.example.cryptoapp.R
 import com.example.cryptoapp.databinding.ActivityCoinPriceListBinding
 import com.example.cryptoapp.domain.entities.CoinPrice
 import com.example.cryptoapp.presentation.adapter.CoinInfoAdapter
 import com.example.cryptoapp.presentation.fragment.CoinDetailFragment
 import com.example.cryptoapp.presentation.viewmodel.ListCoinViewModel
+import com.example.cryptoapp.presentation.viewmodel.ViewModelFactory
+import javax.inject.Inject
 
 class CoinPriceListActivity : AppCompatActivity() {
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+
     private val viewModel by lazy {
-        ViewModelProvider(this)[ListCoinViewModel::class.java]
+        ViewModelProvider(this, viewModelFactory)[ListCoinViewModel::class.java]
     }
 
     private val binding by lazy {
         ActivityCoinPriceListBinding.inflate(layoutInflater)
     }
 
-    private val adapter by lazy {
-        CoinInfoAdapter()
+    @Inject
+    lateinit var adapter: CoinInfoAdapter
+
+    private val component by lazy {
+        (application as CoinApp).component
+            .activityComponentFactory()
+            .create()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        component.injectCoinPriceList(this)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         binding.adapter = adapter
@@ -64,4 +76,6 @@ class CoinPriceListActivity : AppCompatActivity() {
     }
 
     private fun isOnePaneMode() = binding.fragmentContainerViewCoinDetail == null
+
+
 }
