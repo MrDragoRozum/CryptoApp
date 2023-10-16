@@ -5,7 +5,7 @@ import com.example.cryptoapp.presentation.app.CoinApp
 import dagger.BindsInstance
 import dagger.Component
 @ApplicationScope
-@Component(modules = [DataModule::class])
+@Component(modules = [DataModule::class, WorkerModule::class])
 interface ApplicationComponent {
 
     fun activityComponentFactory(): ActivityComponent.ActivityComponentFactory

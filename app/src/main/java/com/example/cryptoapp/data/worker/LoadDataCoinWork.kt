@@ -12,6 +12,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flatMapConcat
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
 class LoadDataCoinWork(
     context: Context,
@@ -41,5 +42,22 @@ class LoadDataCoinWork(
     companion object {
         const val NAME_WORK = "Coin Work"
         val makeRequest = OneTimeWorkRequestBuilder<LoadDataCoinWork>().build()
+    }
+
+    class Factory @Inject constructor(
+        private val apiHelperImpl: ApiHelper,
+        private val db: AppDatabase,
+        private val mapper: CoinMapper
+    ) : ChildWorkerFactory {
+        override fun create(
+            context: Context,
+            workerParameters: WorkerParameters
+        ) = LoadDataCoinWork(
+            context,
+            workerParameters,
+            apiHelperImpl,
+            db,
+            mapper
+        )
     }
 }
